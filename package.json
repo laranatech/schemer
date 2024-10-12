@@ -1,0 +1,37 @@
+{
+	"name": "@laranatech/schemer",
+	"version": "1.0.0",
+	"main": "dist/schemer.cjs.js",
+	"module": "dist/schemer.es.js",
+	"browser": "dist/schemer.umd.js",
+	"exports": {
+		".": {
+			"require": "./dist/schemer.cjs.js",
+			"import": "./dist/schemer.es.js",
+			"browser": "./dist/schemer.umd.js"
+		}
+	},
+	"scripts": {
+		"build": "vite build",
+		"test": "vitest run"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/laranatech/schemer.git"
+	},
+	"keywords": [
+		"larana",
+		"validation"
+	],
+	"author": "Evgenii Kucheriavyi",
+	"license": "MIT",
+	"description": "",
+	"dependencies": {},
+	"devDependencies": {
+		"vitest": "^2.1.2"
+	},
+	"bugs": {
+		"url": "https://github.com/laranatech/schemer/issues"
+	},
+	"homepage": "https://github.com/laranatech/schemer#readme"
+}
