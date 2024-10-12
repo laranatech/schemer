@@ -5,6 +5,9 @@ const validate = (value, config, name = '') => {
 	const allowedTypes = rules.allowlist(Object.keys(types))
 
 	if (typeof config === 'string') {
+		if (config === 'any') {
+			return true
+		}
 		allowedTypes(config)
 		return types[config](value)
 	}

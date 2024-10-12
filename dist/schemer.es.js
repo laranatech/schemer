@@ -1,64 +1,64 @@
-var O = Object.defineProperty, _ = Object.defineProperties;
-var S = Object.getOwnPropertyDescriptors;
-var y = Object.getOwnPropertySymbols;
-var A = Object.prototype.hasOwnProperty, x = Object.prototype.propertyIsEnumerable;
-var l = (r, t, e) => t in r ? O(r, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : r[t] = e, $ = (r, t) => {
+var I = Object.defineProperty, T = Object.defineProperties;
+var M = Object.getOwnPropertyDescriptors;
+var b = Object.getOwnPropertySymbols;
+var N = Object.prototype.hasOwnProperty, F = Object.prototype.propertyIsEnumerable;
+var h = (r, t, e) => t in r ? I(r, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : r[t] = e, $ = (r, t) => {
   for (var e in t || (t = {}))
-    A.call(t, e) && l(r, e, t[e]);
-  if (y)
-    for (var e of y(t))
-      x.call(t, e) && l(r, e, t[e]);
+    N.call(t, e) && h(r, e, t[e]);
+  if (b)
+    for (var e of b(t))
+      F.call(t, e) && h(r, e, t[e]);
   return r;
-}, b = (r, t) => _(r, S(t));
-var p = (r, t, e) => l(r, typeof t != "symbol" ? t + "" : t, e);
-const T = (r) => (t) => {
+}, p = (r, t) => T(r, M(t));
+var E = (r, t, e) => h(r, typeof t != "symbol" ? t + "" : t, e);
+const P = (r) => (t) => {
   if (t >= r)
     return !0;
   throw new Error(`${t} cannot be less than ${r}`);
-}, F = (r) => (t) => {
+}, k = (r) => (t) => {
   if (t <= r)
     return !0;
   throw new Error(`${t} cannot be greater than ${r}`);
-}, I = (r) => (t) => {
+}, q = (r) => (t) => {
   if (t === r)
     return !0;
   throw new Error(`${t} !== ${r}`);
-}, M = (r) => (t) => {
+}, V = (r) => (t) => {
   if (t.length >= r)
     return !0;
   throw new Error(`The value's length (${t.length}) is too short. Min: ${r}`);
-}, N = (r) => (t) => {
+}, z = (r) => (t) => {
   if (t.length <= r)
     return !0;
   throw new Error(`The value's length (${t.length}) is too long. Min: ${r}`);
-}, k = (r) => (t) => {
+}, L = (r) => (t) => {
   if (t.length === r)
     return !0;
   throw new Error(`The value's length (${t.length}) !== ${r}`);
-}, q = () => (r) => {
+}, C = () => (r) => {
   if (r < 0)
     return !0;
   throw new Error(`Value must be negative: ${r}`);
-}, V = () => (r) => {
+}, d = () => (r) => {
   if (r >= 0)
     return !0;
   throw new Error(`Value must be positive: ${r}`);
-}, E = (r, t = void 0) => {
+}, m = (r, t = void 0) => {
   const e = new RegExp(r, t);
   return (n) => {
     if (e.test(n))
       return !0;
     throw new Error(`${n} doesn't match the pattern: ${String(r)}${t ? "/" + String(t) : ""}`);
   };
-}, a = (r) => (t) => {
+}, y = (r) => (t) => {
   if (!r.includes(t))
     return !0;
   throw new Error(`${t} is forbidden: [${r.join(", ")}]`);
-}, h = (r) => (t) => {
+}, l = (r) => (t) => {
   if (r.includes(t))
     return !0;
   throw new Error(`${t} is not on the list: [${r.join(", ")}]`);
-}, z = () => (r) => {
+}, K = () => (r) => {
   const t = `The value cannot be empty: ${r}`;
   if (Array.isArray(r) || typeof r == "string") {
     if (r.length > 0)
@@ -71,36 +71,36 @@ const T = (r) => (t) => {
     throw new Error(t);
   }
   throw new Error(`Invalid value type: ${typeof r}`);
-}, u = (r) => (t) => Object.keys(t).filter((e) => {
+}, c = (r) => (t) => Object.keys(t).filter((e) => {
   try {
     return r(e);
   } catch (n) {
     return !1;
   }
-}), f = (r, t) => r.length === t.length && r.every((e, n) => e === t[n]), D = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}), f = (r, t) => r.length === t.length && r.every((e, n) => e === t[n]), X = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   compareArrays: f,
-  filterObjectKeys: u
+  filterObjectKeys: c
 }, Symbol.toStringTag, { value: "Module" })), j = (r) => {
-  const t = u(h(r));
+  const t = c(l(r));
   return (e) => {
     const n = t(e);
     if (f(n, Object.keys(e)))
       return !0;
-    const i = u(a(r))(e);
+    const i = c(y(r))(e);
     throw new Error(`${e} has Invalid fields: [${i.join(", ")}]`);
   };
-}, L = (r) => {
-  const t = u(a(r));
+}, R = (r) => {
+  const t = c(y(r));
   return (e) => {
     const n = t(e);
     if (f(n, Object.keys(e)))
       return !0;
-    const i = u(h(r))(e);
+    const i = c(l(r))(e);
     throw new Error(`${e} has Invalid fields: [${i.join(", ")}]`);
   };
-}, P = () => {
-  const r = E(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+}, g = () => {
+  const r = m(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
   return (t) => {
     try {
       return r(t), !0;
@@ -108,56 +108,56 @@ const T = (r) => (t) => {
       throw new Error(`Invalid email: ${t}`);
     }
   };
-}, G = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, Y = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   allowedFields: j,
-  allowlist: h,
-  blockedFields: L,
-  blocklist: a,
-  email: P,
-  exact: I,
-  exactLength: k,
-  max: F,
-  maxLength: N,
-  min: T,
-  minLength: M,
-  negative: q,
-  notEmpty: z,
-  positive: V,
-  regexp: E
-}, Symbol.toStringTag, { value: "Module" })), C = (r) => {
+  allowlist: l,
+  blockedFields: R,
+  blocklist: y,
+  email: g,
+  exact: q,
+  exactLength: L,
+  max: k,
+  maxLength: z,
+  min: P,
+  minLength: V,
+  negative: C,
+  notEmpty: K,
+  positive: d,
+  regexp: m
+}, Symbol.toStringTag, { value: "Module" })), U = (r) => {
   if (!Number.isNaN(r) && typeof r == "number")
     return !0;
   throw new Error(`${r} is NaN`);
-}, K = (r) => {
+}, B = (r) => {
   if (Number.isInteger(r))
     return !0;
   throw new Error(`Value must be integer: ${r}`);
-}, R = (r) => {
+}, D = (r) => {
   if (typeof r == "string")
     return !0;
   throw new Error(`${r} is not a string`);
-}, U = (r) => {
+}, G = (r) => {
   if (typeof r == "boolean")
     return !0;
   throw new Error(`${r} must be boolean`);
-}, d = (r) => {
+}, w = (r) => {
   if (Array.isArray(r))
     return !0;
   throw new Error(`${r} must be an array`);
-}, w = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, a = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  array: d,
-  bool: U,
-  int: K,
-  number: C,
-  string: R
-}, Symbol.toStringTag, { value: "Module" })), c = (r, t, e = "") => {
-  const n = h(Object.keys(w));
+  array: w,
+  bool: G,
+  int: B,
+  number: U,
+  string: D
+}, Symbol.toStringTag, { value: "Module" })), u = (r, t, e = "") => {
+  const n = l(Object.keys(a));
   if (typeof t == "string")
-    return n(t), w[t](r);
+    return t === "any" ? !0 : (n(t), a[t](r));
   if (Array.isArray(t) && t.length === 1)
-    return n(t[0]), d(r) && r.every((o) => c(o, t[0]));
+    return n(t[0]), w(r) && r.every((o) => u(o, t[0]));
   if (typeof t != "object")
     throw new Error(`${e ? e + " | " : ""}Invalid config: ${t}`);
   if (j(["type", "required", "rules", "nullable"])(t), t.required === !0 && r === void 0)
@@ -167,17 +167,17 @@ const T = (r) => (t) => {
   if (r === null)
     throw new Error(`${e ? e + " | " : ""}Value cannot be null`);
   if (Array.isArray(t.type) && t.type.length === 1) {
-    const o = b($({}, t), {
+    const o = p($({}, t), {
       type: t.type[0]
     });
-    return d(r) && r.every(
-      (i, s) => c(i, o, `${e}[${s}]`)
+    return w(r) && r.every(
+      (i, s) => u(i, o, `${e}[${s}]`)
     );
   }
-  return n(t.type), w[t.type](r), t.rules && t.rules.forEach((o) => {
+  return n(t.type), a[t.type](r), t.rules && t.rules.forEach((o) => {
     o(r);
   }), !0;
-}, g = (r, t) => {
+}, O = (r, t) => {
   const e = Object.keys(t), n = Object.keys(r), o = [], i = e.filter((s) => t[s].required !== !0 ? !1 : !n.includes(s));
   return i.length > 0 && o.push(`Missing required fields: ${i.join(", ")}`), n.every((s) => {
     if (!e.includes(s)) {
@@ -185,15 +185,15 @@ const T = (r) => (t) => {
       return;
     }
     try {
-      return c(r[s], t[s], s);
-    } catch (m) {
-      o.push(m);
+      return u(r[s], t[s], s);
+    } catch (A) {
+      o.push(A);
     }
   }), { success: o.length === 0, errors: o };
 };
-class H {
+class Z {
   constructor(t) {
-    p(this, "schema", {});
+    E(this, "schema", {});
     this.schema = t;
   }
   validate(t) {
@@ -205,32 +205,56 @@ ${n.join(`
 `)}`);
   }
   validateSafely(t) {
-    return g(t, this.schema);
+    return O(t, this.schema);
   }
 }
-const J = (r, t, e = "") => {
+const v = (r, t, e = "") => {
   const n = [];
   try {
-    c(r, t, e);
+    u(r, t, e);
   } catch (o) {
     n.push(o);
   }
   return { success: n.length === 0, errors: n };
-}, Q = (r, t) => {
-  const { success: e, errors: n } = g(r, t);
+}, rr = (r, t) => {
+  const { success: e, errors: n } = O(r, t);
   if (e)
     return !0;
   throw new Error(`Validation error:
 ${n.join(`
 `)}`);
-};
+}, _ = {
+  type: "string",
+  rules: [
+    g()
+  ]
+}, H = (r) => u(r, _), S = {
+  type: "int",
+  rules: [
+    d()
+  ]
+}, J = (r) => u(r, S), x = {
+  type: "number",
+  rules: [
+    d()
+  ]
+}, Q = (r) => u(r, x), tr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  email: _,
+  positiveInt: S,
+  positiveNumber: x,
+  validateEmail: H,
+  validatePositiveInt: J,
+  validatePositiveNumber: Q
+}, Symbol.toStringTag, { value: "Module" }));
 export {
-  H as Schemer,
-  G as rules,
-  w as types,
-  D as utils,
-  c as validate,
-  Q as validateObject,
-  g as validateObjectSafely,
-  J as validateSafely
+  Z as Schemer,
+  tr as common,
+  Y as rules,
+  a as types,
+  X as utils,
+  u as validate,
+  rr as validateObject,
+  O as validateObjectSafely,
+  v as validateSafely
 };

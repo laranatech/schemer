@@ -65,7 +65,7 @@ console.log(errors) // ['Error: Value must be integer: 10.1']
 ### Validate an objects
 
 ```js
-const { Schemer, rules } = require('@laranatech/schemer')
+const { Schemer, rules, common } = require('@laranatech/schemer')
 
 const s = new Schemer({
 	id: {
@@ -75,22 +75,14 @@ const s = new Schemer({
 		],
 	},
 	x: 'int',
-	y: {
-		type: 'int',
-		rules: [
-			rules.positive(),
-		],
-	},
+	y: common.positiveInt,
 	name: {
 		type: 'string',
 		nullable: true,
 	},
 	email: {
-		type: 'string',
+		...common.email,
 		required: false,
-		rules: [
-			rules.email(),
-		],
 	},
 })
 
