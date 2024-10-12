@@ -2,6 +2,14 @@
 
 This is a bare minimum validation tool for js.
 
+## Installation
+
+```bash
+npm install @laranatech/schemer
+```
+
+See [@laranatech/schemer](https://www.npmjs.com/package/@laranatech/schemer) on npm.
+
 ## Examples
 
 ### Importing
