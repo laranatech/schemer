@@ -1,6 +1,6 @@
 {
 	"name": "@laranatech/schemer",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"main": "dist/schemer.cjs.js",
 	"module": "dist/schemer.es.js",
 	"browser": "dist/schemer.umd.js",
@@ -11,6 +11,9 @@
 			"browser": "./dist/schemer.umd.js"
 		}
 	},
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"build": "vite build",
 		"test": "vitest run"
