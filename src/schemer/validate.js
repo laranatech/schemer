@@ -1,32 +1,29 @@
 import * as rules from '../rules'
 import * as types from '../types'
+import { Schemer } from './schemer'
 
-const validate = (value, config, name = '') => {
-	const allowedTypes = rules.allowlist(Object.keys(types))
+const allowedTypes = rules.allowlist(Object.keys(types))
 
-	if (typeof config === 'string') {
-		if (config === 'any') {
-			return true
-		}
-		allowedTypes(config)
-		return types[config](value)
+const validateType = (value, type) => {
+	if (type === 'any') {
+		return true
+	}
+	allowedTypes(type)
+	return types[type](value)
+}
+
+const validateArray = (value, config, name = '') => {
+	types.array(value)
+
+	if (config.type instanceof Schemer) {
+		return value.every((item) => config.type.validate(item))
 	}
 
-	if (Array.isArray(config) && config.length === 1) {
-		allowedTypes(config[0])
-		return types.array(value) && value.every((item) => validate(item, config[0]))
-	}
+	allowedTypes(config.type)
+	return value.every((item, i) => validate(item, config, `${name}[${i}]`))
+}
 
-	if (typeof config !== 'object') {
-		throw new Error(`${name ? name + ' | ' : ''}Invalid config: ${config}`)
-	}
-
-	rules.allowedFields(['type', 'required', 'rules', 'nullable'])(config)
-
-	if (config.required === true && value === undefined) {
-		throw new Error(`${name ? name + ' | ' : ''}Value is required`)
-	}
-
+const validateNullable = (value, config, name = '') => {
 	if (config.nullable === true && value === null) {
 		return true
 	}
@@ -35,25 +32,52 @@ const validate = (value, config, name = '') => {
 		throw new Error(`${name ? name + ' | ' : ''}Value cannot be null`)
 	}
 
-	if (Array.isArray(config.type) && config.type.length === 1) {
-		const arrayItemConfig = {
-			...config,
-			type: config.type[0],
-		}
+	return false
+}
 
+const validateRequired = (value, config, name = '') => {
+	if (config.required === true && value === undefined) {
+		throw new Error(`${name ? name + ' | ' : ''}Value is required`)
+	}
+	return true
+}
 
-		return types.array(value) && value.every(
-			(item, i) => validate(item, arrayItemConfig, `${name}[${i}]`)
-		)
+const validateConfig = (config, name = '') => {
+	if (typeof config !== 'object') {
+		throw new Error(`${name ? name + ' | ' : ''}Invalid config: ${config}`)
 	}
 
-	allowedTypes(config.type)
-	types[config.type](value)
+	return rules.allowedFields(['type', 'required', 'rules', 'nullable'])(config)
+}
+
+const validate = (value, config, name = '') => {
+	if (typeof config === 'string') {
+		return validateType(value, config, name)
+	}
+
+	if (config instanceof Schemer) {
+		return config.validate(value)
+	}
+
+	if (Array.isArray(config) && config.length === 1) {
+		return validateArray(value, { type: config[0] }, name)
+	}
+
+	validateConfig(config, name)
+	validateRequired(value, config, name)
+
+	if (validateNullable(value, config, name)) {
+		return true
+	}
+
+	if (Array.isArray(config.type) && config.type.length === 1) {
+		return validateArray(value, { ...config, type: config.type[0] }, name)
+	}
+
+	validateType(value, config.type)
 
 	if (config.rules) {
-		config.rules.forEach((r) => {
-			r(value)
-		})
+		config.rules.forEach((r) => r(value))
 	}
 
 	return true

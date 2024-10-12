@@ -1,6 +1,6 @@
 {
 	"name": "@laranatech/schemer",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"main": "dist/schemer.cjs.js",
 	"module": "dist/schemer.es.js",
 	"browser": "dist/schemer.umd.js",
