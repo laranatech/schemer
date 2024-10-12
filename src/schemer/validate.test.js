@@ -11,6 +11,8 @@ test('validate', () => {
 	expect(validate(['John', 'Steve', 'Eric'], ['string'])).toBe(true)
 	expect(validate([true, false, true], ['bool'])).toBe(true)
 
+	expect(validate([1, 2, 3], { type: ['int'] })).toBe(true)
+
 	expect(validate(10, {
 		type: 'int',
 		rules: [

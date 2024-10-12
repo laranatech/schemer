@@ -10,6 +10,7 @@ const validate = (value, config, name = '') => {
 	}
 
 	if (Array.isArray(config) && config.length === 1) {
+		allowedTypes(config[0])
 		return types.array(value) && value.every((item) => validate(item, config[0]))
 	}
 
@@ -31,8 +32,19 @@ const validate = (value, config, name = '') => {
 		throw new Error(`${name ? name + ' | ' : ''}Value cannot be null`)
 	}
 
-	allowedTypes(config.type)
+	if (Array.isArray(config.type) && config.type.length === 1) {
+		const arrayItemConfig = {
+			...config,
+			type: config.type[0],
+		}
 
+
+		return types.array(value) && value.every(
+			(item, i) => validate(item, arrayItemConfig, `${name}[${i}]`)
+		)
+	}
+
+	allowedTypes(config.type)
 	types[config.type](value)
 
 	if (config.rules) {

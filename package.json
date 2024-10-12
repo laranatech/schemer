@@ -1,6 +1,6 @@
 {
 	"name": "@laranatech/schemer",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"main": "dist/schemer.cjs.js",
 	"module": "dist/schemer.es.js",
 	"browser": "dist/schemer.umd.js",
@@ -28,7 +28,7 @@
 	],
 	"author": "Evgenii Kucheriavyi",
 	"license": "MIT",
-	"description": "",
+	"description": "Bare minimum validation tool",
 	"dependencies": {},
 	"devDependencies": {
 		"vitest": "^2.1.2"

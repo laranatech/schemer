@@ -9,7 +9,7 @@ const int = (value) => {
 		return true
 	}
 
-	throw new Error(`Value must integer: ${value}`)
+	throw new Error(`Value must be integer: ${value}`)
 }
 
 export { int }
