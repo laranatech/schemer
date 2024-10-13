@@ -1,5 +1,6 @@
 import * as rules from '../rules'
 import * as types from '../types'
+import * as utils from '../utils'
 import { Schemer } from './schemer'
 
 const allowedTypes = rules.allowlist(Object.keys(types))
@@ -8,6 +9,10 @@ const validateType = (value, type) => {
 	if (type === 'any') {
 		return true
 	}
+	if (utils.isClass(type)) {
+		return types.instance(value, type)
+	}
+
 	allowedTypes(type)
 	return types[type](value)
 }
@@ -17,6 +22,10 @@ const validateArray = (value, config, name = '') => {
 
 	if (config.type instanceof Schemer) {
 		return value.every((item) => config.type.validate(item))
+	}
+
+	if (utils.isClass(config.type)) {
+		return value.every((item) => validateType(item, config.type))
 	}
 
 	allowedTypes(config.type)
@@ -39,7 +48,7 @@ const validateRequired = (value, config, name = '') => {
 	if (config.required === true && value === undefined) {
 		throw new Error(`${name ? name + ' | ' : ''}Value is required`)
 	}
-	return true
+	return config.required === false && value === undefined
 }
 
 const validateConfig = (config, name = '') => {
@@ -51,7 +60,7 @@ const validateConfig = (config, name = '') => {
 }
 
 const validate = (value, config, name = '') => {
-	if (typeof config === 'string') {
+	if (typeof config === 'string' || utils.isClass(config)) {
 		return validateType(value, config, name)
 	}
 
@@ -64,7 +73,9 @@ const validate = (value, config, name = '') => {
 	}
 
 	validateConfig(config, name)
-	validateRequired(value, config, name)
+	if (validateRequired(value, config, name)) {
+		return true
+	}
 
 	if (validateNullable(value, config, name)) {
 		return true
