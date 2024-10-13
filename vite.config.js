@@ -6,7 +6,7 @@ export default defineConfig({
 			entry: 'src/index.js',
 			name: 'schemer',
 			fileName: (format) => `schemer.${format}.js`,
-			formats: ['es', 'umd'],
+			formats: ['es', 'umd', 'cjs'],
 		},
 		rollupOptions: {
 			external: ['fs', 'path'],
